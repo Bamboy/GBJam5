@@ -23,12 +23,13 @@ public class CameraUpscale : MonoBehaviour
 
 	public Transform renderQuad;
 	private PixelPerfectCam renderPPC;
+	private int scaleMult = 2;
 
 	void Start () 
 	{
 		renderPPC = GetComponent<PixelPerfectCam>();
 
-		UpdateScaling();
+		Scaling = ScaleMults.Six;
 	}
 
 	void UpdateScaling()
@@ -42,11 +43,15 @@ public class CameraUpscale : MonoBehaviour
 		Screen.SetResolution( width, height, false, 60 );
 	}
 
+
 	void Update()
 	{
 		if( Input.GetKeyDown(KeyCode.LeftArrow) )
-			Scaling--; //= ((int)Scaling - 1) as ScaleMults;
+			scaleMult = Mathf.Clamp( scaleMult - 1, 1, 6 );
 		if( Input.GetKeyDown(KeyCode.RightArrow) )
-			Scaling++;// = ((int)Scaling + 1) as ScaleMults;
+			scaleMult = Mathf.Clamp( scaleMult + 1, 1, 6 );
+
+		Scaling = (ScaleMults)scaleMult;
+		//Scaling = ScaleMults.Six;
 	}
 }

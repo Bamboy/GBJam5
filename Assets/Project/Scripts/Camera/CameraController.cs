@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
 	public static CameraController instance;
 	void Awake(){ instance = this; }
 
+	public float scrollSpeed = 4f;
 	public int targetX;
 	public int targetY;
 
@@ -32,7 +33,8 @@ public class CameraController : MonoBehaviour
 				if( targetY > 0 )
 				{
 					targetY--;
-					StartCoroutine("MoveCamera", new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y ));
+					targetPos = new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y );
+					StartCoroutine("MoveCamera");
 				}
 			}
 			else if( Input.GetKey( KeyCode.S ) )
@@ -40,7 +42,8 @@ public class CameraController : MonoBehaviour
 				if( targetY < yMax )
 				{
 					targetY++;
-					StartCoroutine("MoveCamera", new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y ));
+					targetPos = new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y );
+					StartCoroutine("MoveCamera");
 				}
 			}
 			else if( Input.GetKey( KeyCode.A ) )
@@ -48,7 +51,8 @@ public class CameraController : MonoBehaviour
 				if( targetX > 0 )
 				{
 					targetX--;
-					StartCoroutine("MoveCamera", new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y ));
+					targetPos = new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y );
+					StartCoroutine("MoveCamera");
 				}
 			}
 			else if( Input.GetKey( KeyCode.D ) )
@@ -56,16 +60,37 @@ public class CameraController : MonoBehaviour
 				if( targetX < xMax )
 				{
 					targetX++;
-					StartCoroutine("MoveCamera", new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y ));
+					targetPos = new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y );
+					StartCoroutine("MoveCamera");
 				}
 			}
 		}
 	}
 
-
-	IEnumerator MoveCamera( Vector3 pos )
+	Vector3 targetPos;
+	IEnumerator MoveCamera()
 	{
+		Debug.LogError("FIX ME");
 		yield return null;
+		/*
+		acceptInputs = false;
+		while( true )
+		{
+			Debug.Log( targetPos );
+			Vector3 move = Vector3.MoveTowards(transform.position, targetPos, scrollSpeed);
+
+			move = new Vector3( Mathf.Floor(move.x), Mathf.Floor(move.y), 0f );
+			Debug.Log( move );
+			transform.position = transform.position + move;
+
+			yield return null;
+
+			if( Vector3.Distance(transform.position, targetPos) < 1f )
+				break;
+		}
+		transform.position = targetPos;
+
+		acceptInputs = true; */
 	}
 
 	public AnimationCurve shakeFalloff;

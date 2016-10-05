@@ -28,3 +28,11 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Assets/Project/Sprites/cards.png.meta
+Assets/Project/Sprites/sprites.png.meta
+Assets/Project/Sprites/text.png.meta
+Assets/Project/Sprites/tiles.png.meta
+Assets/Project/Sprites/towers.png.meta
+Assets/Project/Sprites/Thumbs.db.meta
+Assets/Project/Sprites/Cards/Thumbs.db.meta
+Assets/Project/Sprites/Concept/Thumbs.db.meta

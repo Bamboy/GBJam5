@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 272225d78141b284c875e12fa9132c9a
-timeCreated: 1475566246
+guid: 4008b8129981d284a8e8bba2df597562
+timeCreated: 1475668908
 licenseType: Free
 TrueTypeFontImporter:
   serializedVersion: 4
@@ -10,8 +10,9 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Lucida Console
-  fallbackFontReferences: []
+  - Browallia New
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 183b3b4277e40d143b31df5d10da175f, type: 3}
   customCharacters: 
   fontRenderingMode: 2
   ascentCalculationMode: 2

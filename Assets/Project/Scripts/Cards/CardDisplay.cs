@@ -12,6 +12,8 @@ public class CardDisplay : MonoBehaviour
 	public TextMesh cardName;
 	public TextMesh cardDescription;
 
+	public TextMesh costText;
+
 	private string currentCard = "";
 	public string card
 	{
@@ -28,7 +30,7 @@ public class CardDisplay : MonoBehaviour
 					cardPictureRenderer.sprite = newCard.cardPicture;
 					cardIconRenderer.sprite = Deck.instance.cardIcons[ (int)newCard.type ];
 					cardDescription.text = newCard.description;
-
+					costText.text = Mathf.Clamp(newCard.cost, 0f, 199f).ToString();
 				}
 				else
 					Debug.LogError("No card exists with name "+value);
@@ -51,6 +53,7 @@ public class CardDisplay : MonoBehaviour
 	}
 
 	public Transform moveTarget;
+
 	public int handIndex;
 
 	public float yHoverOffset = 32f;
@@ -59,26 +62,71 @@ public class CardDisplay : MonoBehaviour
 	public float cardSpeed = 10f;
 
 	private Vector3 targetOffset;
+	private float costTextTargetHeight;
 	void Update()
 	{
 		if( moveTarget != null )
 		{
 			//Vector3 targetOffset = Vector3.zero;
 			if( Deck.instance.DeckState == CardState.Selected )
+			{
 				targetOffset.y = currentHovered == this ? yHoverOffsetSelected : 0f;
+				costTextTargetHeight = 30f;
+			}
 			else if( Deck.instance.DeckState == CardState.Discarding )
+			{
 				targetOffset.y = 0f;
+				costTextTargetHeight = 30f;
+			}
 			else
+			{
 				targetOffset.y = currentHovered == this ? yHoverOffset : 0f;
+				costTextTargetHeight = currentHovered == this ? 43f : 30f;
+			}
 
 			
 			if( moveTarget.transform.name == "Player Hand" )
 			{
-				targetOffset.x = (handIndex * 48f) + 24f;
+				if( Deck.instance.handSize == 2 )
+				{
+					float[] positions = new float[]{ -26f, 26f };
+					targetOffset.x = positions[ handIndex ];
+				}
+				else if( Deck.instance.handSize == 3 )
+				{
+					float[] positions = new float[]{ -52f, 0f, 52 };
+					targetOffset.x = positions[ handIndex ];
+				}
+				else
+					Deck.instance.handSize = 3;
 			}
 
 			transform.position = Vector3.MoveTowards( transform.position, moveTarget.position + targetOffset, cardSpeed );
+
+			costText.transform.parent.localPosition = Vector3.MoveTowards( costText.transform.parent.localPosition, new Vector3( -12f, costTextTargetHeight, 5f ), cardSpeed / 2.5f );
 		}
+
+		//Palette swap based on if we can afford to play the card.
+		if( Card.cards.ContainsKey( card ) )
+		{
+			if( PlayerStats.CanAfford( Card.cards[ card ].cost ) )
+			{
+				cardBack.sprite = Deck.instance.cardBacks[0];
+				costBack.sprite = Deck.instance.cardBacks[1];
+			}
+			else
+			{
+				cardBack.sprite = Deck.instance.cardBacks[2];
+				costBack.sprite = Deck.instance.cardBacks[3];
+			}
+		}
+	}
+	private SpriteRenderer cardBack;
+	private SpriteRenderer costBack;
+	void Start()
+	{
+		cardBack = GetComponent<SpriteRenderer>();
+		costBack = costText.transform.parent.GetComponent<SpriteRenderer>();
 	}
 
 	public bool IsAtTarget()

@@ -101,6 +101,8 @@ public class Deck : MonoBehaviour
 	void Start()
 	{
 		Card.BuildCardDatabase();
+		Enemy.BuildEnemies();
+		StatusEffect.BuildEffects();
 		DeckState = CardState.Drawing;
 	}
 

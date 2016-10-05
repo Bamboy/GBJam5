@@ -70,7 +70,8 @@ public class Card
 		newCard.cost = 1;
 		newCard.cardPlayStartAction = (string card) =>
 		{
-			GameObject.Instantiate( Resources.Load("Units/Gahblin") as GameObject, WaypointManager.instance.waypoints[0].position, Quaternion.identity );
+			//GameObject.Instantiate( Resources.Load("Units/Gahblin") as GameObject, WaypointManager.instance.waypoints[0].position, Quaternion.identity );
+			Enemy.Spawn("Gahblin");
 			PlayerStats.Buy( Card.cards[card].cost );
 			Deck.instance.DeckState = CardState.Discarding;
 		};

@@ -59,7 +59,7 @@ public class VectorExtras : System.Object
 	{
 		snapValue = Mathf.Abs(snapValue);
 		if( snapValue != 0.0f )
-			return snapValue * Mathf.Round(( val / snapValue ));
+			return snapValue * Mathf.Round( val / snapValue );
 		else
 			return 0.0f;
 	}

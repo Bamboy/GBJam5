@@ -44,7 +44,7 @@ public class PlayerStats : MonoBehaviour
 			//Update life counter TODO
 			if( value < lives )
 			{
-				//Camera shake coroutine. TODO
+				CameraController.instance.Shake( 0.5f, 4f );
 			}
 
 			lives = Mathf.Clamp( value, 0, 999 );

@@ -13,6 +13,7 @@ public class Deck : MonoBehaviour
 	public static Deck instance;
 	void Awake(){ instance = this; }
 	public bool doDebug = false;
+	public Sprite[] cardBacks;
 	public Sprite[] cardIcons;
 	public int[] cardHeights;
 	private CardState state = CardState.Discarding;
@@ -44,7 +45,7 @@ public class Deck : MonoBehaviour
 				switch( value ) //Our new value.
 				{
 				case CardState.Drawing:
-					cardHandPoint.localPosition = new Vector3( 0, cardHeights[0], 0 );
+					cardHandPoint.localPosition = new Vector3( 80, cardHeights[0], 0 );
 					//Decide new cards to pick and instantiate them. 
 					//We don't need to disable input- cards spawn disabled
 					StopCoroutine("CardCreation");
@@ -52,13 +53,13 @@ public class Deck : MonoBehaviour
 					CardInput = false;
 					break;
 				case CardState.Choosing:
-					cardHandPoint.localPosition = new Vector3( 0, cardHeights[1], 0 );
+					cardHandPoint.localPosition = new Vector3( 80, cardHeights[1], 0 );
 					CardInput = true; //Enable the player input with the cards.
 					break;
 				case CardState.Selected:
 					//Disable player input with cards- its assumed something else will be taking inputs
 					CardInput = false;
-					cardHandPoint.localPosition = new Vector3( 0, cardHeights[2], 0 );
+					cardHandPoint.localPosition = new Vector3( 80, cardHeights[2], 0 );
 					break;
 				case CardState.Discarding:
 					CardInput = false;//Disable player input with cards
@@ -232,7 +233,7 @@ public class Deck : MonoBehaviour
 			yield return null;
 		yield return null;
 		//yield return new WaitForSeconds(0.2f);
-		cardHandPoint.localPosition = new Vector3( 0, cardHeights[2], 0 );
+		cardHandPoint.localPosition = new Vector3( 80, cardHeights[2], 0 );
 
 		while( AllCardsAtTarget() == false )
 			yield return null;

@@ -55,7 +55,7 @@ public class Card
 		newCard = new Card("Blade", CardType.Structure, 3);
 		newCard.cardPicture = null;
 		newCard.description = "Chops\r\nEnemies";
-		newCard.cost = 1;
+		newCard.cost = 2;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			Deck.instance.DeckState = CardState.Selected;
@@ -81,7 +81,7 @@ public class Card
 		newCard = new Card("Card++", CardType.Ability, 1);
 		newCard.cardPicture = null;
 		newCard.description = "Another\r\ncard to\r\nchoose";
-		newCard.cost = 1;
+		newCard.cost = 7;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			Deck.instance.handSize++;

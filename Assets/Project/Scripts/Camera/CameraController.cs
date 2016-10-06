@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
 	public int yMax = 2;
 
 	public Transform camera;
+	Vector3 targetPos;
 	Vector3 cameraDefault;
 	void Start()
 	{
@@ -28,70 +29,43 @@ public class CameraController : MonoBehaviour
 
 		if( acceptInputs )
 		{
-			if( Input.GetKey( KeyCode.W ) )
+			if( Input.GetKeyDown( KeyCode.W ) )
 			{
 				if( targetY > 0 )
 				{
 					targetY--;
-					targetPos = new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y );
-					StartCoroutine("MoveCamera");
 				}
 			}
-			else if( Input.GetKey( KeyCode.S ) )
+			else if( Input.GetKeyDown( KeyCode.S ) )
 			{
 				if( targetY < yMax )
 				{
 					targetY++;
-					targetPos = new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y );
-					StartCoroutine("MoveCamera");
 				}
 			}
-			else if( Input.GetKey( KeyCode.A ) )
+			else if( Input.GetKeyDown( KeyCode.A ) )
 			{
 				if( targetX > 0 )
 				{
 					targetX--;
-					targetPos = new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y );
-					StartCoroutine("MoveCamera");
 				}
 			}
-			else if( Input.GetKey( KeyCode.D ) )
+			else if( Input.GetKeyDown( KeyCode.D ) )
 			{
 				if( targetX < xMax )
 				{
 					targetX++;
-					targetPos = new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y );
-					StartCoroutine("MoveCamera");
+
 				}
 			}
 		}
+		targetPos = new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y );
+
+		transform.position = Vector3.MoveTowards( transform.position, targetPos, scrollSpeed );
 	}
 
-	Vector3 targetPos;
-	IEnumerator MoveCamera()
-	{
-		Debug.LogError("FIX ME");
-		yield return null;
-		/*
-		acceptInputs = false;
-		while( true )
-		{
-			Debug.Log( targetPos );
-			Vector3 move = Vector3.MoveTowards(transform.position, targetPos, scrollSpeed);
 
-			move = new Vector3( Mathf.Floor(move.x), Mathf.Floor(move.y), 0f );
-			Debug.Log( move );
-			transform.position = transform.position + move;
 
-			yield return null;
-
-			if( Vector3.Distance(transform.position, targetPos) < 1f )
-				break;
-		}
-		transform.position = targetPos;
-
-		acceptInputs = true; */
-	}
 
 	public AnimationCurve shakeFalloff;
 	float shakeStartTime;

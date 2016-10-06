@@ -174,7 +174,8 @@ public class Deck : MonoBehaviour
 				}
 				else
 				{
-					Debug.Log("Nope!");
+					//Debug.Log("Nope!");
+					StatsUI.instance.FlashGems();
 				}
 			}
 		}
@@ -266,7 +267,7 @@ public class Deck : MonoBehaviour
 
 	private CardDisplay CreateCard( string card, int handIndex )
 	{
-		GameObject go = GameObject.Instantiate( blankCard, cardCreatePoint.position, cardCreatePoint.rotation, this.transform ) as GameObject;
+		GameObject go = GameObject.Instantiate( blankCard, cardCreatePoint.position, cardCreatePoint.rotation, cardCreatePoint ) as GameObject;
 		go.GetComponent<BoxCollider>().enabled = false;
 		CardDisplay cd = go.GetComponent<CardDisplay>();
 		cd.card = card;

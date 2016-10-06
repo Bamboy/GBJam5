@@ -5,7 +5,11 @@ public class PlayerStats : MonoBehaviour
 {
 	public static PlayerStats instance;
 	void Awake() { instance = this; }
-
+	void Start()
+	{
+		Gems = 10;
+		Life = 3;
+	}
 
 	public int gemsPerDeath = 1;
 
@@ -18,6 +22,7 @@ public class PlayerStats : MonoBehaviour
 		}
 		set{
 			money = value;
+			StatsUI.instance.SetGems( value );
 		}
 	}
 
@@ -44,8 +49,11 @@ public class PlayerStats : MonoBehaviour
 			//Update life counter TODO
 			if( value < lives )
 			{
+				StatsUI.instance.SetLife( value, true );
 				CameraController.instance.Shake( 0.5f, 4f );
 			}
+			else
+				StatsUI.instance.SetLife( value, false );
 
 			lives = Mathf.Clamp( value, 0, 999 );
 			if( lives == 0 )

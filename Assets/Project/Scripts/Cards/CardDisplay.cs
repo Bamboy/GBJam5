@@ -63,7 +63,7 @@ public class CardDisplay : MonoBehaviour
 
 	private Vector3 targetOffset;
 	private float costTextTargetHeight;
-	void Update()
+	void LateUpdate()
 	{
 		if( moveTarget != null )
 		{

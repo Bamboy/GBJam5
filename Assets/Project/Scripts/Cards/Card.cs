@@ -7,15 +7,30 @@ public class Card
 {
 
 	public static Dictionary<string, Card> cards;
-	public static Dictionary<string, int> cardDrawWeights;
+	public static string[] cardNames;
+	public static int[] weights;
+	public static int[] GetWeights()
+	{
+		string debugWeights = "====== Card Weights ======\r\n";
+		for (int i = 0; i < cardNames.Length; i++) 
+		{
+			debugWeights += cardNames[i] +"(id:"+cards[cardNames[i]].id+"): " + weights[i] + "\r\n";
+		}
+
+		if( Deck.instance.doDebug )
+			Debug.Log(debugWeights);
+
+		return weights;
 
 
+	}
 	//TEXT MESH IMG DISPLAY: <quad material=1 size=20 x=0.1 y=0.1 width=0.5 height=0.5 />
 	//Must have multiple materials attached
 
 
 
 	//Card stats
+	public int id = -1;
 	public string title = "A card!";
 	public string description = "Still a card";
 	public string longDescription = "";
@@ -24,6 +39,7 @@ public class Card
 	public Sprite cardPicture;
 
 	public int defaultWeight = 0;
+
 	public int cost = 1;
 
 
@@ -38,6 +54,7 @@ public class Card
 
 	public Card(string name, CardType type, int defaultWeight = 0)
 	{
+		this.id = cards.Count;
 		this.title = name;
 		this.type = type;
 		this.defaultWeight = defaultWeight;
@@ -48,7 +65,8 @@ public class Card
 	public static void BuildCardDatabase()
 	{
 		cards = new Dictionary<string, Card>();
-		cardDrawWeights = new Dictionary<string, int>();
+		cardNames = new string[0];
+		weights = new int[0];
 		Card newCard;
 
 
@@ -62,9 +80,10 @@ public class Card
 			Build.instance.StartBuild( Resources.Load("Structures/Bladetower") as GameObject, card, newCard.cardPlayEndedAction );
 		};
 		cards.Add( newCard.title, newCard );
-		cardDrawWeights.Add( newCard.title, newCard.defaultWeight );
+		cardNames = ArrayTools.PushLast( cardNames, newCard.title );
+		weights = ArrayTools.PushLast( weights, newCard.defaultWeight );
 
-		newCard = new Card("Gahblin", CardType.Unit, 3);
+		newCard = new Card("Gahblin", CardType.Unit, 30);
 		newCard.cardPicture = null;
 		newCard.description = "Tries to\r\nkill\r\nyou";
 		newCard.cost = 1;
@@ -76,20 +95,40 @@ public class Card
 			Deck.instance.DeckState = CardState.Discarding;
 		};
 		cards.Add( newCard.title, newCard );
-		cardDrawWeights.Add( newCard.title, newCard.defaultWeight );
+		cardNames = ArrayTools.PushLast( cardNames, newCard.title );
+		weights = ArrayTools.PushLast(weights, newCard.defaultWeight);
 
-		newCard = new Card("Card++", CardType.Ability, 1);
+		newCard = new Card("Card ++", CardType.Ability, 1);
 		newCard.cardPicture = null;
 		newCard.description = "Another\r\ncard to\r\nchoose";
 		newCard.cost = 7;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			Deck.instance.handSize++;
+			Debug.Log( cardNames[ Card.cards[card].id ] );
+			weights[ Card.cards[card].id ] = 0;
 			PlayerStats.Buy( Card.cards[card].cost );
 			Deck.instance.DeckState = CardState.Discarding;
 		};
 		cards.Add( newCard.title, newCard );
-		cardDrawWeights.Add( newCard.title, newCard.defaultWeight );
+		cardNames = ArrayTools.PushLast( cardNames, newCard.title );
+		weights = ArrayTools.PushLast(weights, newCard.defaultWeight);
+
+		newCard = new Card("Heal", CardType.Ability, 5);
+		newCard.cardPicture = null;
+		newCard.description = "Health\r\n+ 3";
+		newCard.cost = 2;
+		newCard.cardPlayStartAction = (string card) =>
+		{
+			PlayerStats.instance.Life += 3;
+			PlayerStats.Buy( Card.cards[card].cost );
+			Deck.instance.DeckState = CardState.Discarding;
+		};
+		cards.Add( newCard.title, newCard );
+		cardNames = ArrayTools.PushLast( cardNames, newCard.title );
+		weights = ArrayTools.PushLast(weights, newCard.defaultWeight);
+
+
 	}
 	#endregion
 }

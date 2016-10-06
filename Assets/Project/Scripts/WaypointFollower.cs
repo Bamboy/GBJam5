@@ -30,6 +30,14 @@ public class WaypointFollower : MonoBehaviour
 		{
 			StartCoroutine("MoveToNode");
 		}
+		else
+		{
+			//They made it through the defenses! Destroy this and decrease life
+
+			PlayerStats.instance.Life -= 1;
+
+			Destroy( this.gameObject );
+		}
 
 	}
 

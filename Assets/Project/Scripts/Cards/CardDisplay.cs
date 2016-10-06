@@ -41,7 +41,7 @@ public class CardDisplay : MonoBehaviour
 
 	public void OnMouseEnter()
 	{
-		Debug.Log("Mouse Enter");
+		//Debug.Log("Mouse Enter");
 	}
 	public void OnMouseStay()
 	{
@@ -49,7 +49,7 @@ public class CardDisplay : MonoBehaviour
 	}
 	public void OnMouseExit()
 	{
-		Debug.Log("Mouse Exit");
+		//Debug.Log("Mouse Exit");
 	}
 
 	public Transform moveTarget;
@@ -63,7 +63,7 @@ public class CardDisplay : MonoBehaviour
 
 	private Vector3 targetOffset;
 	private float costTextTargetHeight;
-	void LateUpdate()
+	void Update()
 	{
 		if( moveTarget != null )
 		{
@@ -101,7 +101,8 @@ public class CardDisplay : MonoBehaviour
 					Deck.instance.handSize = 3;
 			}
 
-			transform.position = Vector3.MoveTowards( transform.position, moveTarget.position + targetOffset, cardSpeed );
+			if( Deck.stateChanged == false )
+				transform.position = Vector3.MoveTowards( transform.position, moveTarget.position + targetOffset, cardSpeed );
 
 			costText.transform.parent.localPosition = Vector3.MoveTowards( costText.transform.parent.localPosition, new Vector3( -12f, costTextTargetHeight, 5f ), cardSpeed / 2.5f );
 		}

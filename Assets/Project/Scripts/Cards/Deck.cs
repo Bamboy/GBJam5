@@ -17,12 +17,14 @@ public class Deck : MonoBehaviour
 	public Sprite[] cardIcons;
 	public int[] cardHeights;
 	private CardState state = CardState.Discarding;
+	public static bool stateChanged = false;
 	public CardState DeckState
 	{
 		get{ return state; }
 		set{
 			if( value != state )
 			{
+				stateChanged = true;
 				switch( state ) //Our old value.
 				{
 				case CardState.Drawing:
@@ -213,6 +215,10 @@ public class Deck : MonoBehaviour
 			break;
 		}
 	}
+	void LateUpdate()
+	{
+		stateChanged = false;
+	}
 
 
 	public bool AllCardsAtTarget()
@@ -249,11 +255,26 @@ public class Deck : MonoBehaviour
 
 		DeckState = CardState.Drawing; //This will delete all objects and clear our array
 	}
+	int[] cardWeights;
 	IEnumerator CardCreation()
 	{
+		cardWeights = Card.GetWeights();
+		//Debug.Log("Card weights: " + cardWeights[0] + "," + cardWeights[1] + "," + cardWeights[2]);
+
 		while( playerHand.Length < handSize )
 		{
-			string card = ExtRandom<string>.WeightedChoice( new string[]{"Blade", "Gahblin", "Card++"}, new int[]{3,3,1} );
+			string card = ExtRandom<string>.WeightedChoice( Card.cardNames, cardWeights );
+
+			bool hasThisCardAlready = false;
+			foreach( CardDisplay cd in playerHand )
+			{
+				if( cd.card == card )
+					hasThisCardAlready = true;
+			}
+			
+			if( hasThisCardAlready )
+				continue;
+
 			playerHand = ArrayTools.Push( playerHand, CreateCard( card, playerHand.Length ) );
 			yield return new WaitForSeconds( 0.25f );
 		}

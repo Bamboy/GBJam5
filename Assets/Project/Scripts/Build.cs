@@ -40,7 +40,7 @@ public class Build : MonoBehaviour
 	{
 		if( !building )
 			return;
-		Debug.Break();
+
 		building = false;
 		highlighter.gameObject.SetActive(false);
 		structureCard = "";

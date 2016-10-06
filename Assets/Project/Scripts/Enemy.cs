@@ -7,8 +7,11 @@ public class Enemy : MonoBehaviour
 {
 	#region Static stuff
 	public static Dictionary<string, Enemy> enemies;
+	public static Enemy[] alive;
+
 	public static void BuildEnemies()
 	{
+		alive = new Enemy[0];
 		//Create a bunch of enemies, place instances into dictionary so we can copy them
 		GameObject emptyEnemy = Resources.Load("Units/Enemy") as GameObject;
 		enemies = new Dictionary<string, Enemy>();
@@ -32,6 +35,8 @@ public class Enemy : MonoBehaviour
 			obj.SetActive( true );
 			Enemy e = obj.GetComponent<Enemy>();
 			e.Type = type;
+
+			alive = ArrayTools.PushLast( alive, e );
 			//TODO add some kind of array with all active enemies
 			return e;
 		}
@@ -86,9 +91,9 @@ public class Enemy : MonoBehaviour
 			hp = Mathf.Clamp( value, 0, MaxHealth );
 			if( hp == 0 )
 			{
-				//Die TODO
 				mover.speed = 0f;
 				PlayerStats.instance.Gems += PlayerStats.instance.gemsPerDeath;
+				Destroy( this.gameObject );
 			}
 		}
 	}
@@ -113,6 +118,10 @@ public class Enemy : MonoBehaviour
 
 		if( Input.GetKeyDown(KeyCode.L) )
 			AddStatus( "Poison" );
+	}
+	void OnDestroy()
+	{
+		alive = ArrayTools.Remove(alive, this);
 	}
 
 	#region Status effects

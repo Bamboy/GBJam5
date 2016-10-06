@@ -64,6 +64,18 @@ public class StatsUI : MonoBehaviour
 		heartRenderer.sprite = hearts[2];
 		yield return new WaitForSeconds(flashDelay);
 		heartRenderer.sprite = hearts[0];
+		yield return new WaitForSeconds(flashDelay);
+		heartRenderer.sprite = hearts[1];
+		yield return new WaitForSeconds(flashDelay);
+		heartRenderer.sprite = hearts[2];
+		yield return new WaitForSeconds(flashDelay);
+		heartRenderer.sprite = hearts[0];
+		yield return new WaitForSeconds(flashDelay);
+		heartRenderer.sprite = hearts[1];
+		yield return new WaitForSeconds(flashDelay);
+		heartRenderer.sprite = hearts[2];
+		yield return new WaitForSeconds(flashDelay);
+		heartRenderer.sprite = hearts[0];
 	}
 
 	

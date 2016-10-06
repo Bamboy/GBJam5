@@ -22,56 +22,13 @@ public class RepeatSpriteBoundary : MonoBehaviour
 	{
 		// Get the current sprite with an unscaled size
 		sprite = GetComponent<SpriteRenderer>();
-
 		Rebuild();
-
-
 		Destroy(this);
-
-
-
-
-	}
-
-	void Update()
-	{
-		/*
-		if( lastRealSize != transform.localScale )
-		{
-
-			Rebuild();
-			lastSize = VectorExtras.Round( transform.localScale );
-			return;
-
-			if( VectorExtras.Round( transform.localScale ) != lastSize )
-			{
-				Rebuild();
-				lastSize = VectorExtras.Round( transform.localScale );
-			}
-			else
-			{
-				foreach (GameObject c in children) 
-				{
-					c.transform.localScale = Vector3.one;
-
-				}
-			}
-
-			lastRealSize = transform.localScale;
-		} */
 	}
 
 
 	void Rebuild()
 	{
-		/*if( children.Length > 0 )
-		{
-			foreach (GameObject c in children) {
-				DestroyImmediate( c );
-			}
-			children = new GameObject[0];
-		} */
-		//Vector2 spriteSize = new Vector2(sprite.sprite.bounds.size.x / transform.localScale.x, sprite.sprite.bounds.size.y / transform.localScale.y);
 		Vector2 spriteSize = new Vector2(sprite.sprite.bounds.size.x / transform.localScale.x, sprite.sprite.bounds.size.y / transform.localScale.y);
 
 
@@ -113,6 +70,9 @@ public class RepeatSpriteBoundary : MonoBehaviour
 				}
 				else
 					childSprite.sprite = sprite.sprite;
+
+				childSprite.sortingLayerName = sprite.sortingLayerName;
+				childSprite.sortingOrder = sprite.sortingOrder;
 			}
 		}
 
@@ -124,7 +84,5 @@ public class RepeatSpriteBoundary : MonoBehaviour
 
 		// Disable the currently existing sprite component since its now a repeated image
 		sprite.enabled = false;
-
-
 	}
 }

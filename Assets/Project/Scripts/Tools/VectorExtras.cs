@@ -104,6 +104,11 @@ public class VectorExtras : System.Object
 				return vector.normalized * maxMagnitdue;
 		}
 	}
+
+	public static Vector3 Round( Vector3 vector )
+	{
+		return new Vector3( Mathf.Round( vector.x ), Mathf.Round( vector.y ), Mathf.Round( vector.z ) );
+	}
 	
 	//===========================================
 	//=========== Directions ====================

@@ -1,12 +1,15 @@
 fileFormatVersion: 2
 guid: eb76f29e3734acc4b99f13fb0f74b277
-timeCreated: 1475740051
+timeCreated: 1475861972
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: enemies-06_0
     21300002: enemies-06_1
     21300004: enemies-06_2
+    21300006: enemy_necro_0
+    21300008: enemy_necro_1
+    21300010: enemy_necro_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -56,41 +59,41 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: enemies-06_0
+      name: enemy_necro_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies-06_1
+      name: enemy_necro_1
       rect:
         serializedVersion: 2
         x: 48
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies-06_2
+      name: enemy_necro_2
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

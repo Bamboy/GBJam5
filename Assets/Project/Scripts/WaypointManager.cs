@@ -13,7 +13,10 @@ public class WaypointManager : MonoBehaviour
 	public Color gizmoPathColor = Color.red;
 	public Transform[] waypoints = new Transform[0];
 
-
+	void Update()
+	{
+		SlowAura.Evalulate();
+	}
 
 
 	

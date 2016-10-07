@@ -9,12 +9,14 @@ public class Build : MonoBehaviour
 	public Sprite canBuild;
 	public Sprite cannotBuild;
 
+	public Structure structComponent;
 	public GameObject structure;
 
 	private bool building = false;
 	string structureCard = "";
 
 	public Transform highlighter;
+	public LineRenderer rangeIndicator;
 	SpriteRenderer highlighterSpr;
 
 	private Card.OnPlayEvent finishedBuildingAction;
@@ -33,6 +35,7 @@ public class Build : MonoBehaviour
 		structureCard = sourceCard;
 
 		this.structure = structure;
+		structComponent = structure.GetComponent<Structure>();
 		finishedBuildingAction = onBuildingFinished;
 	}
 
@@ -85,6 +88,8 @@ public class Build : MonoBehaviour
 
 				highlighter.transform.position = snappedPos;
 
+				rangeIndicator.enabled = true;
+				DrawRange( snappedPos + new Vector3( 8, -8, 0 ), structComponent.areaOfInfluence );
 
 				if( data.collider.tag == "Buildable" )
 				{
@@ -101,8 +106,54 @@ public class Build : MonoBehaviour
 			else
 				highlighterSpr.sprite = cannotBuild;
 		}
+		else
+		{
+			RaycastHit data = CameraUpscale.instance.DownscaledMouseRaycast();
+			if( data.point != Vector3.zero )
+			{
+				//Move indicator
+				if( data.collider.tag == "Structure" )
+				{
+					Vector3 snappedPos = new Vector3( VectorExtras.RoundTo(data.point.x - 8f, 16f), VectorExtras.RoundTo(data.point.y + 8f, 16f), 0f );
+
+					rangeIndicator.enabled = true;
+					DrawRange( snappedPos + new Vector3( 8, -8, 0 ), data.collider.GetComponent<Structure>().areaOfInfluence );
+				}
+				else
+					rangeIndicator.enabled = false;
+			}
+			else
+				rangeIndicator.enabled = false;
 
 
+		}
+
+
+
+	}
+
+	public float theta_scale = 0.1f;
+	void DrawRange( Vector3 center, float radius )
+	{
+		Vector3[] points = new Vector3[0];
+
+		int i = 0;
+		for(float theta = 0f; theta < (2f * Mathf.PI); theta += theta_scale)
+		{
+			// Calculate position of point
+			float x = radius * Mathf.Cos(theta);
+			float y = radius * Mathf.Sin(theta);
+
+			// Set the position of this point
+			Vector3 pos = new Vector3(x, y, 1) + center;
+
+			points = ArrayTools.Push( points, pos );
+
+			i++;
+		}
+		points = ArrayTools.Push( points, points[ points.Length - 1] );
+		rangeIndicator.SetVertexCount( points.Length );
+		rangeIndicator.SetPositions( points );
 
 	}
 }

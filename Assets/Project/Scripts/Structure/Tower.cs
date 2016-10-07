@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
-
 public class Tower : Structure
 {
 	public int damage = 1;

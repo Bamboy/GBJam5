@@ -1,12 +1,15 @@
 fileFormatVersion: 2
 guid: 69f2223edddd26444a9249648d5f9a0b
-timeCreated: 1475739960
+timeCreated: 1475861966
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: enemies-02_0
     21300002: enemies-02_1
     21300004: enemies-02_2
+    21300006: enemy_knight_0
+    21300008: enemy_knight_1
+    21300010: enemy_knight_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -56,41 +59,41 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: enemies-02_0
+      name: enemy_knight_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 48
         height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies-02_1
+      name: enemy_knight_1
       rect:
         serializedVersion: 2
         x: 48
         y: 0
         width: 48
         height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies-02_2
+      name: enemy_knight_2
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 48
         height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

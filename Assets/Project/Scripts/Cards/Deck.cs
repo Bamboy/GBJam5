@@ -16,6 +16,11 @@ public class Deck : MonoBehaviour
 	public Sprite[] cardBacks;
 	public Sprite[] cardIcons;
 	public int[] cardHeights;
+
+	public Sprite[] healthBarLow;
+	public Sprite[] healthBarMed;
+	public Sprite[] healthBarHigh;
+
 	private CardState state = CardState.Discarding;
 	public static bool stateChanged = false;
 	public CardState DeckState

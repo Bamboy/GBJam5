@@ -3,7 +3,8 @@ using System.Collections;
 
 public class ProjectileTower : Tower
 {
-	public GameObject projectile;
+	public GameObject projectileVisual;
+	public float projectileSpeed = 128f;
 
 	public override void Start() 
 	{
@@ -11,9 +12,33 @@ public class ProjectileTower : Tower
 		onTick = (Structure owner) => 
 		{
 			if( target != null )
-				target.Health -= damage;
+			{
+				Fire();
+			}
 			else
 				timeLeft = 0.001f; //Don't waste the attack timer until we actually can attack an enemy.
 		};
+	}
+	public override void Update () 
+	{
+		base.Update();
+	}
+
+	private void Fire()
+	{
+		//Create projectile
+
+		GameObject p = GameObject.Instantiate( projectileVisual, center, Quaternion.identity, transform ) as GameObject;
+		Projectile proj = p.GetComponent<Projectile>();
+		proj.speed = projectileSpeed;
+		proj.owner = this;
+		proj.target = target;
+
+
+
+	}
+	public void ProjectileHit( Enemy e )
+	{
+		e.Health -= damage;
 	}
 }

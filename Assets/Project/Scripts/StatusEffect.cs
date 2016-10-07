@@ -41,6 +41,21 @@ public class StatusEffect
 		};
 		effects.Add( newEffect.name, newEffect );
 
+
+
+		newEffect = new StatusEffect("Slow", Mathf.Infinity, 4f);
+		newEffect.onApply = (Enemy owner, string effectName) => {
+			//TODO attach some kind of particle system
+			owner.Speed -= newEffect.power;
+			return newEffect.StartingValues();
+		};
+		newEffect.onEvalulate = (Enemy owner, ref EffectValues values) => { return true; };
+		newEffect.onRemove = (Enemy owner) => { 
+			//TODO remove some kind of particle system 
+			owner.Speed += newEffect.power;
+		};
+		effects.Add( newEffect.name, newEffect );
+
 	}
 
 

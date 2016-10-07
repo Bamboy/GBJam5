@@ -70,33 +70,38 @@ public class Card
 		Card newCard;
 
 
-		newCard = new Card("Blade", CardType.Structure, 3);
+		newCard = new Card("Blade", CardType.Structure, 4);
 		newCard.cardPicture = null;
 		newCard.description = "Chops\r\nEnemies";
-		newCard.cost = 2;
+		newCard.cost = 3;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			Deck.instance.DeckState = CardState.Selected;
 			Build.instance.StartBuild( Resources.Load("Structures/Bladetower") as GameObject, card, newCard.cardPlayEndedAction );
 		};
-		cards.Add( newCard.title, newCard );
-		cardNames = ArrayTools.PushLast( cardNames, newCard.title );
-		weights = ArrayTools.PushLast( weights, newCard.defaultWeight );
+		CardFinalize( newCard );
 
-		newCard = new Card("Gahblin", CardType.Unit, 30);
+		newCard = new Card("Archer", CardType.Structure, 8);
 		newCard.cardPicture = null;
-		newCard.description = "Tries to\r\nkill\r\nyou";
+		newCard.description = "Shoots\r\npointy\r\nobjects";
 		newCard.cost = 1;
 		newCard.cardPlayStartAction = (string card) =>
 		{
-			//GameObject.Instantiate( Resources.Load("Units/Gahblin") as GameObject, WaypointManager.instance.waypoints[0].position, Quaternion.identity );
-			Enemy.Spawn("Gahblin");
-			PlayerStats.Buy( Card.cards[card].cost );
-			Deck.instance.DeckState = CardState.Discarding;
+			Deck.instance.DeckState = CardState.Selected;
+			Build.instance.StartBuild( Resources.Load("Structures/Archer Tower") as GameObject, card, newCard.cardPlayEndedAction );
 		};
-		cards.Add( newCard.title, newCard );
-		cardNames = ArrayTools.PushLast( cardNames, newCard.title );
-		weights = ArrayTools.PushLast(weights, newCard.defaultWeight);
+		CardFinalize( newCard );
+
+		newCard = new Card("SlowAura", CardType.Structure, 3);
+		newCard.cardPicture = null;
+		newCard.description = "Slows\r\nenemies\r\nin range";
+		newCard.cost = 4;
+		newCard.cardPlayStartAction = (string card) =>
+		{
+			Deck.instance.DeckState = CardState.Selected;
+			Build.instance.StartBuild( Resources.Load("Structures/SlowAura") as GameObject, card, newCard.cardPlayEndedAction );
+		};
+		CardFinalize( newCard );
 
 		newCard = new Card("Card ++", CardType.Ability, 1);
 		newCard.cardPicture = null;
@@ -110,25 +115,100 @@ public class Card
 			PlayerStats.Buy( Card.cards[card].cost );
 			Deck.instance.DeckState = CardState.Discarding;
 		};
-		cards.Add( newCard.title, newCard );
-		cardNames = ArrayTools.PushLast( cardNames, newCard.title );
-		weights = ArrayTools.PushLast(weights, newCard.defaultWeight);
+		CardFinalize( newCard );
 
-		newCard = new Card("Heal", CardType.Ability, 5);
+		newCard = new Card("Heal", CardType.Ability, 3);
 		newCard.cardPicture = null;
 		newCard.description = "Health\r\n+ 3";
-		newCard.cost = 2;
+		newCard.cost = 4;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			PlayerStats.instance.Life += 3;
 			PlayerStats.Buy( Card.cards[card].cost );
 			Deck.instance.DeckState = CardState.Discarding;
 		};
+		CardFinalize( newCard );
+
+
+
+
+
+
+
+		//ENEMIES - remove me TODO
+
+
+		newCard = new Card("Gahblin", CardType.Unit, 10);
+		newCard.cardPicture = null;
+		newCard.description = "Tries to\r\nkill\r\nyou";
+		newCard.cost = 1;
+		newCard.cardPlayStartAction = (string card) =>
+		{
+			//GameObject.Instantiate( Resources.Load("Units/Gahblin") as GameObject, WaypointManager.instance.waypoints[0].position, Quaternion.identity );
+			Enemy.Spawn("Gahblin");
+			PlayerStats.Buy( Card.cards[card].cost );
+			Deck.instance.DeckState = CardState.Discarding;
+		};
+		CardFinalize( newCard );
+
+		newCard = new Card("Knight", CardType.Unit, 10);
+		newCard.cardPicture = null;
+		newCard.description = "\r\nTough";
+		newCard.cost = 1;
+		newCard.cardPlayStartAction = (string card) =>
+		{
+			//GameObject.Instantiate( Resources.Load("Units/Gahblin") as GameObject, WaypointManager.instance.waypoints[0].position, Quaternion.identity );
+			Enemy.Spawn("Knight");
+			PlayerStats.Buy( Card.cards[card].cost );
+			Deck.instance.DeckState = CardState.Discarding;
+		};
+		CardFinalize( newCard );
+
+		newCard = new Card("Sage", CardType.Unit, 10);
+		newCard.cardPicture = null;
+		newCard.description = "Heals\r\nfoes";
+		newCard.cost = 1;
+		newCard.cardPlayStartAction = (string card) =>
+		{
+			//GameObject.Instantiate( Resources.Load("Units/Gahblin") as GameObject, WaypointManager.instance.waypoints[0].position, Quaternion.identity );
+			Enemy.Spawn("Sage");
+			PlayerStats.Buy( Card.cards[card].cost );
+			Deck.instance.DeckState = CardState.Discarding;
+		};
+		CardFinalize( newCard );
+
+		newCard = new Card("Troll", CardType.Unit, 10);
+		newCard.cardPicture = null;
+		newCard.description = "Regens\r\nhis\r\nhealth";
+		newCard.cost = 1;
+		newCard.cardPlayStartAction = (string card) =>
+		{
+			//GameObject.Instantiate( Resources.Load("Units/Gahblin") as GameObject, WaypointManager.instance.waypoints[0].position, Quaternion.identity );
+			Enemy.Spawn("Troll");
+			PlayerStats.Buy( Card.cards[card].cost );
+			Deck.instance.DeckState = CardState.Discarding;
+		};
+		CardFinalize( newCard );
+
+		newCard = new Card("Necro", CardType.Unit, 5);
+		newCard.cardPicture = null;
+		newCard.description = "Summons\r\nSkellies";
+		newCard.cost = 1;
+		newCard.cardPlayStartAction = (string card) =>
+		{
+			//GameObject.Instantiate( Resources.Load("Units/Gahblin") as GameObject, WaypointManager.instance.waypoints[0].position, Quaternion.identity );
+			Enemy.Spawn("Necro");
+			PlayerStats.Buy( Card.cards[card].cost );
+			Deck.instance.DeckState = CardState.Discarding;
+		};
+		CardFinalize( newCard );
+	}
+
+	private static void CardFinalize( Card newCard )
+	{
 		cards.Add( newCard.title, newCard );
 		cardNames = ArrayTools.PushLast( cardNames, newCard.title );
 		weights = ArrayTools.PushLast(weights, newCard.defaultWeight);
-
-
 	}
 	#endregion
 }

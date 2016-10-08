@@ -1,13 +1,11 @@
 fileFormatVersion: 2
-guid: a08504adeda199542ae60ed24445d392
-timeCreated: 1475891870
+guid: 59513944563453e4cb64777b6900b630
+timeCreated: 1475889887
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: arrowtower_0
-    21300002: arrowtower_1
-    21300004: arrowtower_2
-    21300006: arrowtower_3
+    21300000: blade_0
+    21300002: blade_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -57,33 +55,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: arrowtower_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 16
-        height: 16
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: arrowtower_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: arrowtower_2
+      name: blade_0
       rect:
         serializedVersion: 2
         x: 0
@@ -96,15 +68,15 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: arrowtower_3
+      name: blade_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 16
-        width: 16
+        x: 0
+        y: 0
+        width: 32
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.064, y: 0.49750003}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

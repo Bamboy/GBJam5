@@ -92,6 +92,17 @@ public class Card
 		};
 		CardFinalize( newCard );
 
+		newCard = new Card("Dart", CardType.Structure, 4);
+		newCard.cardPicture = null;
+		newCard.description = "Poisons\r\nfoes";
+		newCard.cost = 4;
+		newCard.cardPlayStartAction = (string card) =>
+		{
+			Deck.instance.DeckState = CardState.Selected;
+			Build.instance.StartBuild( Resources.Load("Structures/DartTower") as GameObject, card, newCard.cardPlayEndedAction );
+		};
+		CardFinalize( newCard );
+
 		newCard = new Card("SlowAura", CardType.Structure, 3);
 		newCard.cardPicture = null;
 		newCard.description = "Slows\r\nenemies\r\nin range";

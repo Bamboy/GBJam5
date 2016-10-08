@@ -193,10 +193,6 @@ public class Enemy : MonoBehaviour
 			obj.transform.position = this.transform.position + new Vector3(0, -1, 0);
 			obj.transform.SetParent( this.transform );
 			obj.name = "Healthbar";
-
-
-				
-
 			healthBar = obj.AddComponent<SpriteRenderer>();
 			healthBar.sortingLayerName = "Cards";
 			healthBar.sortingOrder = -900;
@@ -317,5 +313,22 @@ public class Enemy : MonoBehaviour
 	{
 		Gizmos.color = Color.blue;
 		Gizmos.DrawSphere( transform.position + centerOffset, 4f );
+	}
+
+	public static Enemy[] GetEnemiesInRange( Vector3 position, float range )
+	{
+		Enemy[] result = new Enemy[0];
+
+		foreach (Enemy enemy in Enemy.alive) 
+		{
+
+			if( Vector3.Distance(position, enemy.transform.position + enemy.centerOffset) < range )
+			{
+				result = ArrayTools.Push(result, enemy);
+			}
+
+		}
+
+		return result;
 	}
 }

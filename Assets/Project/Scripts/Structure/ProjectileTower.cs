@@ -37,7 +37,7 @@ public class ProjectileTower : Tower
 
 
 	}
-	public void ProjectileHit( Enemy e )
+	public virtual void ProjectileHit( Enemy e )
 	{
 		e.Health -= damage;
 	}

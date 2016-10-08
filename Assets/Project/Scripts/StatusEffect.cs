@@ -10,10 +10,9 @@ public class StatusEffect
 		effects = new Dictionary<string, StatusEffect>();
 		StatusEffect newEffect;
 
-		newEffect = new StatusEffect("Poison", 0.25f, 10f); // Power is total damage to deal. 1 damage is dealt every duration.
+		newEffect = new StatusEffect("Poison", 0.1f, 10f); // Power is total damage to deal. 1 damage is dealt every duration.
 		newEffect.onApply = (Enemy owner, string effectName) => {
 			//TODO attach some kind of particle system
-			Debug.Log("buff applied"); 
 			return newEffect.StartingValues();
 		};
 		newEffect.onEvalulate = (Enemy owner, ref EffectValues values) => 
@@ -32,7 +31,7 @@ public class StatusEffect
 				else
 					return false;
 			}
-				
+			Debug.Log("eval " + values.endTime);
 			return true;
 		};
 		newEffect.onRemove = (Enemy owner) => { 

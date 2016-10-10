@@ -11,6 +11,7 @@ public class Build : MonoBehaviour
 
 	public Structure structComponent;
 	public GameObject structure;
+	public Transform raycatcher;
 
 	private bool building = false;
 	string structureCard = "";
@@ -73,7 +74,7 @@ public class Build : MonoBehaviour
 	{
 		if( building )
 		{
-			if( PlayerStats.CanAfford( Card.cards[structureCard].cost ) == false || Input.GetMouseButtonDown(1) )
+			if( PlayerStats.CanAfford( Card.cards[structureCard].startCost ) == false || Input.GetMouseButtonDown(1) )
 			{
 				CancelBuild();
 				return;
@@ -98,6 +99,10 @@ public class Build : MonoBehaviour
 					if( Input.GetMouseButtonDown(0) )
 					{
 						ConfirmBuild( snappedPos );
+
+
+						if( WaveManager.gameStarted == false ) //Dont start the game until the player builds something!
+							WaveManager.StartGame();
 					}
 				}
 				else

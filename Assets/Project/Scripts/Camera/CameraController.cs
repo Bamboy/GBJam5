@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
 	bool acceptInputs = true;
 	void Update () 
 	{
-		if( Input.GetKeyDown( KeyCode.P ) )
+		if( Input.GetKeyDown( KeyCode.P ) && Deck.instance.doDebug  )
 			CameraController.instance.Shake( 0.3f, 8f );
 
 		if( acceptInputs )
@@ -74,6 +74,7 @@ public class CameraController : MonoBehaviour
 
 	public void Shake( float duration, float intensity )
 	{
+		StopCoroutine( "ShakeCamera" );
 		shakeEndTime = Time.time + duration;
 		shakeintensity = intensity;
 		StartCoroutine( "ShakeCamera" );

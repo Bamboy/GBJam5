@@ -10,39 +10,9 @@ public class StatusEffect
 		effects = new Dictionary<string, StatusEffect>();
 		StatusEffect newEffect;
 
-		newEffect = new StatusEffect("Poison", 0.1f, 10f); // Power is total damage to deal. 1 damage is dealt every duration.
-		newEffect.onApply = (Enemy owner, string effectName) => {
-			//TODO attach some kind of particle system
-			return newEffect.StartingValues();
-		};
-		newEffect.onEvalulate = (Enemy owner, ref EffectValues values) => 
-		{
-			if( Time.time >= values.endTime )
-			{
-				//Deal one damage and reduce power by one
-				owner.Health -= 1;
-				values.power -= 1f;
-				Debug.Log("dealt damage- hp: "+ owner.Health);
-				if( values.power > 0f )
-				{
-					values.endTime = Time.time + StatusEffect.effects[ values.source ].duration;
-					return true;
-				}
-				else
-					return false;
-			}
-			Debug.Log("eval " + values.endTime);
-			return true;
-		};
-		newEffect.onRemove = (Enemy owner) => { 
-			//TODO remove some kind of particle system 
-			Debug.Log("buff removed"); 
-		};
-		effects.Add( newEffect.name, newEffect );
 
 
-
-		newEffect = new StatusEffect("Slow", Mathf.Infinity, 4f);
+		newEffect = new StatusEffect("Slow", Mathf.Infinity, 6f);
 		newEffect.onApply = (Enemy owner, string effectName) => {
 			//TODO attach some kind of particle system
 			owner.Speed -= newEffect.power;
@@ -56,7 +26,6 @@ public class StatusEffect
 		effects.Add( newEffect.name, newEffect );
 
 	}
-
 
 	public StatusEffect( string name, float duration, float power )
 	{

@@ -5,10 +5,10 @@ using System.Collections.Generic;
 public enum CardType{ Structure, Unit, Ability }
 public class Card
 {
-
 	public static Dictionary<string, Card> cards;
 	public static string[] cardNames;
 	public static int[] weights;
+	public static int[] playCount;
 	public static int[] GetWeights()
 	{
 		string debugWeights = "====== Card Weights ======\r\n";
@@ -21,8 +21,6 @@ public class Card
 			Debug.Log(debugWeights);
 
 		return weights;
-
-
 	}
 	//TEXT MESH IMG DISPLAY: <quad material=1 size=20 x=0.1 y=0.1 width=0.5 height=0.5 />
 	//Must have multiple materials attached
@@ -40,8 +38,13 @@ public class Card
 
 	public int defaultWeight = 0;
 
-	public int cost = 1;
-
+	//public int startCost = 1;
+	public int startCost = 1;
+	public int costIncrement = 1;
+	public int cost
+	{
+		get{ return startCost + (costIncrement * playCount[id]); }
+	}
 
 	public delegate bool CanPlay( string card ); //Evalulate if this card can be played (IE player has enough money)
 	public delegate void OnPlayEvent( string card );
@@ -50,7 +53,7 @@ public class Card
 	public CanPlay cardIsPlayable = (string card) => { return PlayerStats.CanAfford( Card.cards[card].cost ); };
 	public OnPlayEvent cardPlayStartAction = (string card) => { Debug.Log("This card has no behaviour assigned"); };
 	public OnPlaying cardPlayingAction = (string card) => { return true; };
-	public OnPlayEvent cardPlayEndedAction = (string card) => { PlayerStats.Buy( Card.cards[card].cost ); Deck.instance.DeckState = CardState.Discarding; };
+	public OnPlayEvent cardPlayEndedAction = (string card) => { PlayerStats.Buy( Card.cards[card].cost ); playCount[cards[card].id]++; Deck.instance.DeckState = CardState.Discarding; };
 
 	public Card(string name, CardType type, int defaultWeight = 0)
 	{
@@ -65,15 +68,16 @@ public class Card
 	public static void BuildCardDatabase()
 	{
 		cards = new Dictionary<string, Card>();
+		playCount = new int[0];
 		cardNames = new string[0];
 		weights = new int[0];
 		Card newCard;
 
 
-		newCard = new Card("Blade", CardType.Structure, 4);
+		newCard = new Card("Blade", CardType.Structure, 3);
 		newCard.cardPicture = null;
-		newCard.description = "Chops\r\nEnemies";
-		newCard.cost = 3;
+		newCard.description = "Chops\r\nenemies";
+		newCard.startCost = 4;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			Deck.instance.DeckState = CardState.Selected;
@@ -84,7 +88,7 @@ public class Card
 		newCard = new Card("Archer", CardType.Structure, 8);
 		newCard.cardPicture = null;
 		newCard.description = "Shoots\r\npointy\r\nobjects";
-		newCard.cost = 1;
+		newCard.startCost = 1;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			Deck.instance.DeckState = CardState.Selected;
@@ -94,8 +98,8 @@ public class Card
 
 		newCard = new Card("Dart", CardType.Structure, 4);
 		newCard.cardPicture = null;
-		newCard.description = "Poisons\r\nfoes";
-		newCard.cost = 4;
+		newCard.description = "Rapidly\r\nattacks";
+		newCard.startCost = 3;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			Deck.instance.DeckState = CardState.Selected;
@@ -103,10 +107,23 @@ public class Card
 		};
 		CardFinalize( newCard );
 
-		newCard = new Card("SlowAura", CardType.Structure, 3);
+		newCard = new Card("Magic", CardType.Structure, 0); //Card is disabled until wave 5, see WaveManager.cs
+		newCard.cardPicture = null;
+		newCard.description = "Deals %\r\nhealth\r\ndamage";
+		newCard.startCost = 25;
+		newCard.costIncrement = 5;
+		newCard.cardPlayStartAction = (string card) =>
+		{
+			Deck.instance.DeckState = CardState.Selected;
+			Build.instance.StartBuild( Resources.Load("Structures/MagicTower") as GameObject, card, newCard.cardPlayEndedAction );
+		};
+		CardFinalize( newCard );
+
+		newCard = new Card("SlowAura", CardType.Structure, 0); //Card is disabled until wave 5, see WaveManager.cs
 		newCard.cardPicture = null;
 		newCard.description = "Slows\r\nenemies\r\nin range";
-		newCard.cost = 4;
+		newCard.startCost = 10;
+		newCard.costIncrement = 3;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			Deck.instance.DeckState = CardState.Selected;
@@ -114,24 +131,24 @@ public class Card
 		};
 		CardFinalize( newCard );
 
-		newCard = new Card("Card ++", CardType.Ability, 1);
+		newCard = new Card("Card ++", CardType.Ability, 0); //Card is disabled until wave 5, see WaveManager.cs
 		newCard.cardPicture = null;
 		newCard.description = "Another\r\ncard to\r\nchoose";
-		newCard.cost = 7;
+		newCard.startCost = 20;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			Deck.instance.handSize++;
-			Debug.Log( cardNames[ Card.cards[card].id ] );
 			weights[ Card.cards[card].id ] = 0;
 			PlayerStats.Buy( Card.cards[card].cost );
 			Deck.instance.DeckState = CardState.Discarding;
 		};
 		CardFinalize( newCard );
 
-		newCard = new Card("Heal", CardType.Ability, 3);
+		newCard = new Card("Heal", CardType.Ability, 2);
 		newCard.cardPicture = null;
 		newCard.description = "Health\r\n+ 3";
-		newCard.cost = 4;
+		newCard.startCost = 3;
+		newCard.costIncrement = 5;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			PlayerStats.instance.Life += 3;
@@ -148,7 +165,7 @@ public class Card
 
 		//ENEMIES - remove me TODO
 
-
+		/*
 		newCard = new Card("Gahblin", CardType.Unit, 10);
 		newCard.cardPicture = null;
 		newCard.description = "Tries to\r\nkill\r\nyou";
@@ -213,11 +230,13 @@ public class Card
 			Deck.instance.DeckState = CardState.Discarding;
 		};
 		CardFinalize( newCard );
+		*/
 	}
 
 	private static void CardFinalize( Card newCard )
 	{
 		cards.Add( newCard.title, newCard );
+		playCount = ArrayTools.PushLast( playCount, 0 );
 		cardNames = ArrayTools.PushLast( cardNames, newCard.title );
 		weights = ArrayTools.PushLast(weights, newCard.defaultWeight);
 	}

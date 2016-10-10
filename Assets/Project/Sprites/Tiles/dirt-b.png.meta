@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 17388d17940ebb84b8fe9a90e9e50e92
-timeCreated: 1475748607
+timeCreated: 1476044332
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -16,6 +16,7 @@ TextureImporter:
     21300018: dirt-b_9
     21300020: dirt-b_10
     21300022: dirt-b_11
+    21300024: dirt-b_12
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -222,6 +223,19 @@ TextureImporter:
         height: 8
       alignment: 1
       pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: dirt-b_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 16
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

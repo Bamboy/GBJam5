@@ -7,14 +7,14 @@ public class PlayerStats : MonoBehaviour
 	void Awake() { instance = this; }
 	void Start()
 	{
-		Gems = 10;
+		Gems = 8;
 		Life = 3;
 	}
 
 	public int gemsPerDeath = 1;
 
 
-	private int money = 10;
+	private int money = 8;
 	public int Gems
 	{
 		get{
@@ -58,9 +58,17 @@ public class PlayerStats : MonoBehaviour
 			lives = Mathf.Clamp( value, 0, 999 );
 			if( lives == 0 )
 			{
-				Debug.LogError("Game over! (Do this)");
+				GameOver();
 			}
 		}
 	}
 
+
+	public static void GameOver()
+	{
+		StatsUI.instance.GameOverAnim();
+
+		Build.instance.raycatcher.transform.position = new Vector3(0,0,-130);
+		Build.instance.raycatcher.tag = "Untagged";
+	}
 }

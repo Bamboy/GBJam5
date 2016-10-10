@@ -219,6 +219,9 @@ public class Deck : MonoBehaviour
 			Debug.LogError("Wtf how'd you get here?");
 			break;
 		}
+
+		if( Input.GetKeyDown(KeyCode.O) && Deck.instance.doDebug )
+			PlayerStats.instance.Life -= 999;
 	}
 	void LateUpdate()
 	{
@@ -304,9 +307,15 @@ public class Deck : MonoBehaviour
 
 	void OnGUI()
 	{
+		if( doDebug == false ) 
+			return;
+
+
 		GUI.color = Color.white;
 		GUILayout.BeginHorizontal();
 		GUILayout.Label("DeckState: " + DeckState.ToString());
+
 		GUILayout.EndHorizontal();
+		GUILayout.Label("Wave: " + WaveManager.waveNumber);
 	}
 }

@@ -11,6 +11,8 @@ public class PathLayout : MonoBehaviour
 	public bool placeLeft = false;
 	public bool placeRight = false;
 
+	public int tileSize = 16;
+
 	private SpriteRenderer sprite;
 	void Awake () 
 	{
@@ -41,7 +43,7 @@ public class PathLayout : MonoBehaviour
 				SpriteRenderer childSprite = child.AddComponent<SpriteRenderer>();
 
 				child.name = "tile: " + (x+1) + ", " + (y+1);
-				child.transform.position = transform.position + (new Vector3(16 * x, -16 * y, 0));
+				child.transform.position = transform.position + (new Vector3(tileSize * x, -tileSize * y, 0));
 				child.transform.parent = transform;
 
 				childSprite.sprite = GetFromSet( TileDirection.Center );
@@ -78,7 +80,7 @@ public class PathLayout : MonoBehaviour
 		SpriteRenderer childSprite = child.AddComponent<SpriteRenderer>();
 
 		child.name = "tile fringe " + dir.ToString();
-		child.transform.position = transform.position + (new Vector3(16 * x, -16 * y, 0));
+		child.transform.position = transform.position + (new Vector3(tileSize * x, -tileSize * y, 0));
 		child.transform.parent = transform;
 
 		childSprite.sprite = GetFromSet( dir );

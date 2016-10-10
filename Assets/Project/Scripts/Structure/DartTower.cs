@@ -22,7 +22,7 @@ public class DartTower : ProjectileTower
 	}
 	public override void ProjectileHit( Enemy e )
 	{
-		e.Health -= 1;
-		e.AddStatus("Poison");
+		e.Health -= damage;
+		//e.AddStatus("Poison");
 	}
 }

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public enum HealthCap{ Low = 6, Med = 12, High = 30 };
+public enum HealthCap{ Low = 15, Med = 28, High = 45 };
 
 [RequireComponent(typeof(WaypointFollower))]
 public class Enemy : MonoBehaviour 
@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
 
 	public static void BuildEnemies()
 	{
-		float baseSpeed = 10f;
+		float baseSpeed = 16f;
 
 		alive = new Enemy[0];
 		//Create a bunch of enemies, place instances into dictionary so we can copy them
@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
 		GameObject enemyObj = GameObject.Instantiate( Resources.Load("Units/Gahblin"), WaypointManager.instance.transform ) as GameObject;
 		Enemy newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Gahblin" );
+		newEnemy.HealthGainPerWave = 5;
 		newEnemy.MaxHealth = HealthCap.Med;
 		newEnemy.Health = int.MaxValue;
 		newEnemy.Speed = baseSpeed;
@@ -32,6 +33,7 @@ public class Enemy : MonoBehaviour
 		enemyObj = GameObject.Instantiate( Resources.Load("Units/Knight"), WaypointManager.instance.transform ) as GameObject;
 		newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Knight" );
+		newEnemy.HealthGainPerWave = 8;
 		newEnemy.MaxHealth = HealthCap.High;
 		newEnemy.Health = int.MaxValue;
 		newEnemy.Speed = baseSpeed / 2f;
@@ -41,6 +43,7 @@ public class Enemy : MonoBehaviour
 		enemyObj = GameObject.Instantiate( Resources.Load("Units/Sage"), WaypointManager.instance.transform ) as GameObject;
 		newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Sage" );
+		newEnemy.HealthGainPerWave = 3;
 		newEnemy.MaxHealth = HealthCap.Med;
 		newEnemy.Health = int.MaxValue;
 		newEnemy.Speed = baseSpeed / 2f;
@@ -50,6 +53,7 @@ public class Enemy : MonoBehaviour
 		enemyObj = GameObject.Instantiate( Resources.Load("Units/Troll"), WaypointManager.instance.transform ) as GameObject;
 		newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Troll" );
+		newEnemy.HealthGainPerWave = 6;
 		newEnemy.MaxHealth = HealthCap.Med;
 		newEnemy.Health = int.MaxValue;
 		newEnemy.Speed = baseSpeed;
@@ -59,6 +63,7 @@ public class Enemy : MonoBehaviour
 		enemyObj = GameObject.Instantiate( Resources.Load("Units/Necro"), WaypointManager.instance.transform ) as GameObject;
 		newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Necro" );
+		newEnemy.HealthGainPerWave = 12;
 		newEnemy.MaxHealth = HealthCap.High;
 		newEnemy.Health = int.MaxValue;
 		newEnemy.Speed = baseSpeed / 2f;
@@ -68,6 +73,7 @@ public class Enemy : MonoBehaviour
 		enemyObj = GameObject.Instantiate( Resources.Load("Units/Skelly"), WaypointManager.instance.transform ) as GameObject;
 		newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Skelly" );
+		newEnemy.HealthGainPerWave = 3;
 		newEnemy.MaxHealth = HealthCap.Low;
 		newEnemy.Health = int.MaxValue;
 		newEnemy.Speed = baseSpeed;
@@ -131,6 +137,9 @@ public class Enemy : MonoBehaviour
 			mover.speed = Mathf.Clamp( value, 2.5f, 100f );
 		}
 	}
+	public int MaxHealthValue = 1;
+	public int HealthGainPerWave = 3;
+
 	private HealthCap mxHP = HealthCap.Low;
 	public HealthCap MaxHealth{
 		get{ return mxHP; }
@@ -160,7 +169,7 @@ public class Enemy : MonoBehaviour
 	{
 		get{ return hp; }
 		set{
-			hp = Mathf.Clamp( value, 0, (int)MaxHealth );
+			hp = Mathf.Clamp( value, 0, MaxHealthValue );
 			if( hp == 0 )
 			{
 				mover.speed = 0f;
@@ -170,7 +179,7 @@ public class Enemy : MonoBehaviour
 			else
 			{
 				//Update health bar.
-				float percent = (float)hp / (float)((int)MaxHealth);
+				float percent = (float)hp / (float)MaxHealthValue;
 				healthBar.sprite = healthBarSet[ Mathf.FloorToInt( percent * (healthBarSet.Length - 1) ) ];
 			}
 		}
@@ -210,9 +219,6 @@ public class Enemy : MonoBehaviour
 		{
 			DoStatusEffects();
 		}
-
-		if( Input.GetKeyDown(KeyCode.L) )
-			AddStatus( "Poison" );
 	}
 	void OnDestroy()
 	{

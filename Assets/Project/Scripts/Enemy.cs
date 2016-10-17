@@ -2,83 +2,99 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public enum HealthCap{ Low = 15, Med = 28, High = 45 };
+public enum HealthCap{ Low = 10, Med = 20, High = 35 };
 
 [RequireComponent(typeof(WaypointFollower))]
 public class Enemy : MonoBehaviour 
 {
 	#region Static stuff
 	public static Dictionary<string, Enemy> enemies;
+	//public static Dictionary<string, int> enemyHealth;
 	public static Enemy[] alive;
 
 	public static void BuildEnemies()
 	{
-		float baseSpeed = 16f;
+		float fastSpeed = 24f;
+		float baseSpeed = 20f;
+		float slowSpeed = 16f;
 
 		alive = new Enemy[0];
 		//Create a bunch of enemies, place instances into dictionary so we can copy them
 		//GameObject emptyEnemy = Resources.Load("Units/Enemy") as GameObject;
 		enemies = new Dictionary<string, Enemy>();
+		//enemyHealth = new Dictionary<string, int>();
 
 		GameObject enemyObj = GameObject.Instantiate( Resources.Load("Units/Gahblin"), WaypointManager.instance.transform ) as GameObject;
 		Enemy newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Gahblin" );
-		newEnemy.HealthGainPerWave = 5;
+		newEnemy.HealthGainPerWave = 2;
 		newEnemy.MaxHealth = HealthCap.Med;
+		newEnemy.MaxHealthValue = (int)newEnemy.MaxHealth;
 		newEnemy.Health = int.MaxValue;
 		newEnemy.Speed = baseSpeed;
 		enemyObj.SetActive( false );
 		enemies.Add( newEnemy.Type, newEnemy );
+		//enemyHealth.Add( newEnemy.Type, (int)newEnemy.MaxHealth );
 
 		enemyObj = GameObject.Instantiate( Resources.Load("Units/Knight"), WaypointManager.instance.transform ) as GameObject;
 		newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Knight" );
-		newEnemy.HealthGainPerWave = 8;
+		newEnemy.HealthGainPerWave = 4;
 		newEnemy.MaxHealth = HealthCap.High;
+		newEnemy.MaxHealthValue = (int)newEnemy.MaxHealth;
 		newEnemy.Health = int.MaxValue;
-		newEnemy.Speed = baseSpeed / 2f;
+		newEnemy.Speed = slowSpeed;
 		enemyObj.SetActive( false );
 		enemies.Add( newEnemy.Type, newEnemy );
+		//enemyHealth.Add( newEnemy.Type, (int)newEnemy.MaxHealth );
 
 		enemyObj = GameObject.Instantiate( Resources.Load("Units/Sage"), WaypointManager.instance.transform ) as GameObject;
 		newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Sage" );
-		newEnemy.HealthGainPerWave = 3;
+		newEnemy.HealthGainPerWave = 2;
 		newEnemy.MaxHealth = HealthCap.Med;
+		newEnemy.MaxHealthValue = (int)newEnemy.MaxHealth;
 		newEnemy.Health = int.MaxValue;
-		newEnemy.Speed = baseSpeed / 2f;
+		newEnemy.Speed = slowSpeed;
 		enemyObj.SetActive( false );
 		enemies.Add( newEnemy.Type, newEnemy );
+		//enemyHealth.Add( newEnemy.Type, (int)newEnemy.MaxHealth );
 
 		enemyObj = GameObject.Instantiate( Resources.Load("Units/Troll"), WaypointManager.instance.transform ) as GameObject;
 		newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Troll" );
-		newEnemy.HealthGainPerWave = 6;
+		newEnemy.HealthGainPerWave = 4;
 		newEnemy.MaxHealth = HealthCap.Med;
+		newEnemy.MaxHealthValue = (int)newEnemy.MaxHealth;
 		newEnemy.Health = int.MaxValue;
 		newEnemy.Speed = baseSpeed;
 		enemyObj.SetActive( false );
 		enemies.Add( newEnemy.Type, newEnemy );
+		//enemyHealth.Add( newEnemy.Type, (int)newEnemy.MaxHealth );
 
 		enemyObj = GameObject.Instantiate( Resources.Load("Units/Necro"), WaypointManager.instance.transform ) as GameObject;
 		newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Necro" );
-		newEnemy.HealthGainPerWave = 12;
+		newEnemy.HealthGainPerWave = 7;
 		newEnemy.MaxHealth = HealthCap.High;
+		newEnemy.MaxHealthValue = (int)newEnemy.MaxHealth;
 		newEnemy.Health = int.MaxValue;
-		newEnemy.Speed = baseSpeed / 2f;
+		newEnemy.Speed = slowSpeed;
 		enemyObj.SetActive( false );
 		enemies.Add( newEnemy.Type, newEnemy );
+		//enemyHealth.Add( newEnemy.Type, (int)newEnemy.MaxHealth );
 
 		enemyObj = GameObject.Instantiate( Resources.Load("Units/Skelly"), WaypointManager.instance.transform ) as GameObject;
 		newEnemy = enemyObj.GetComponent<Enemy>();
 		newEnemy.SetType( "Skelly" );
-		newEnemy.HealthGainPerWave = 3;
+		newEnemy.HealthGainPerWave = 1;
 		newEnemy.MaxHealth = HealthCap.Low;
+		newEnemy.MaxHealthValue = (int)newEnemy.MaxHealth;
 		newEnemy.Health = int.MaxValue;
-		newEnemy.Speed = baseSpeed;
+		newEnemy.Speed = fastSpeed;
 		enemyObj.SetActive( false );
 		enemies.Add( newEnemy.Type, newEnemy );
+		//enemyHealth.Add( newEnemy.Type, (int)newEnemy.MaxHealth );
 	}
 	//Spawn an enemy at the start of the track.
 	public static Enemy Spawn( string type )
@@ -101,6 +117,32 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
+	public static void RampHealth()
+	{
+		//foreach (KeyValuePair<string, int> pair in enemyHealth) 
+		//{
+		//	pair.Value = pair.Value + enemies[pair.Key].HealthGainPerWave;
+		//}
+		foreach (KeyValuePair<string, Enemy> pair in enemies) 
+		{
+			pair.Value.gameObject.SetActive( true );
+
+			pair.Value.MaxHealthValue += pair.Value.HealthGainPerWave;
+
+			pair.Value.gameObject.SetActive( false );
+		}
+	}
+	public static void RampHealthGain()
+	{
+		foreach (KeyValuePair<string, Enemy> pair in enemies) 
+		{
+			pair.Value.gameObject.SetActive( true );
+
+			pair.Value.HealthGainPerWave = pair.Value.HealthGainPerWave + pair.Value.HealthGainPerWave;
+
+			pair.Value.gameObject.SetActive( false );
+		}
+	}
 
 	#endregion
 	SpriteRenderer healthBar;

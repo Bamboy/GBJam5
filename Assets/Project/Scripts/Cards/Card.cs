@@ -53,7 +53,12 @@ public class Card
 	public CanPlay cardIsPlayable = (string card) => { return PlayerStats.CanAfford( Card.cards[card].cost ); };
 	public OnPlayEvent cardPlayStartAction = (string card) => { Debug.Log("This card has no behaviour assigned"); };
 	public OnPlaying cardPlayingAction = (string card) => { return true; };
-	public OnPlayEvent cardPlayEndedAction = (string card) => { PlayerStats.Buy( Card.cards[card].cost ); playCount[cards[card].id]++; Deck.instance.DeckState = CardState.Discarding; };
+	public OnPlayEvent cardPlayEndedAction = (string card) => 
+	{ 
+		PlayerStats.Buy( Card.cards[card].cost ); 
+		playCount[cards[card].id]++; 
+		Deck.instance.DeckState = CardState.Discarding; 
+	};
 
 	public Card(string name, CardType type, int defaultWeight = 0)
 	{
@@ -74,10 +79,11 @@ public class Card
 		Card newCard;
 
 
-		newCard = new Card("Blade", CardType.Structure, 3);
+		newCard = new Card("Blade", CardType.Structure, 4);
 		newCard.cardPicture = null;
 		newCard.description = "Chops\r\nenemies";
 		newCard.startCost = 4;
+		newCard.costIncrement = 2;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			Deck.instance.DeckState = CardState.Selected;
@@ -110,7 +116,7 @@ public class Card
 		newCard = new Card("Magic", CardType.Structure, 0); //Card is disabled until wave 5, see WaveManager.cs
 		newCard.cardPicture = null;
 		newCard.description = "Deals %\r\nhealth\r\ndamage";
-		newCard.startCost = 25;
+		newCard.startCost = 20;
 		newCard.costIncrement = 5;
 		newCard.cardPlayStartAction = (string card) =>
 		{
@@ -140,6 +146,7 @@ public class Card
 			Deck.instance.handSize++;
 			weights[ Card.cards[card].id ] = 0;
 			PlayerStats.Buy( Card.cards[card].cost );
+			playCount[cards[card].id]++; 
 			Deck.instance.DeckState = CardState.Discarding;
 		};
 		CardFinalize( newCard );
@@ -148,16 +155,27 @@ public class Card
 		newCard.cardPicture = null;
 		newCard.description = "Health\r\n+ 3";
 		newCard.startCost = 3;
-		newCard.costIncrement = 5;
+		newCard.costIncrement = 2;
 		newCard.cardPlayStartAction = (string card) =>
 		{
 			PlayerStats.instance.Life += 3;
 			PlayerStats.Buy( Card.cards[card].cost );
+			playCount[cards[card].id]++; 
 			Deck.instance.DeckState = CardState.Discarding;
 		};
 		CardFinalize( newCard );
 
-
+		newCard = new Card("Remove", CardType.Ability, 0); //Card is disabled until wave 10, see WaveManager.cs
+		newCard.cardPicture = null;
+		newCard.description = "Removes\r\nrock or\r\nstructure";
+		newCard.startCost = 5;
+		newCard.costIncrement = 3;
+		newCard.cardPlayStartAction = (string card) =>
+		{
+			Deck.instance.DeckState = CardState.Selected;
+			Build.instance.StartBuild( null, card, newCard.cardPlayEndedAction );
+		};
+		CardFinalize( newCard );
 
 
 

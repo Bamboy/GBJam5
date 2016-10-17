@@ -35,8 +35,11 @@ public class Build : MonoBehaviour
 		highlighter.gameObject.SetActive(true);
 		structureCard = sourceCard;
 
-		this.structure = structure;
-		structComponent = structure.GetComponent<Structure>();
+		if( sourceCard != "Remove" )
+		{
+			this.structure = structure;
+			structComponent = structure.GetComponent<Structure>();
+		}
 		finishedBuildingAction = onBuildingFinished;
 	}
 
@@ -84,16 +87,14 @@ public class Build : MonoBehaviour
 			if( data.point != Vector3.zero )
 			{
 				//Move indicator
-
 				Vector3 snappedPos = new Vector3( VectorExtras.RoundTo(data.point.x - 8f, 16f), VectorExtras.RoundTo(data.point.y + 8f, 16f), 0f );
-
 				highlighter.transform.position = snappedPos;
 
-				rangeIndicator.enabled = true;
-				DrawRange( snappedPos + new Vector3( 8, -8, 0 ), structComponent.areaOfInfluence );
-
-				if( data.collider.tag == "Buildable" )
+				if( data.collider.tag == "Buildable" && structureCard != "Remove" )
 				{
+					rangeIndicator.enabled = true;
+					DrawRange( snappedPos + new Vector3( 8, -8, 0 ), structComponent.areaOfInfluence );
+
 					highlighterSpr.sprite = canBuild;
 
 					if( Input.GetMouseButtonDown(0) )
@@ -105,11 +106,48 @@ public class Build : MonoBehaviour
 							WaveManager.StartGame();
 					}
 				}
+				else if( data.collider.tag == "Structure" && structureCard == "Remove" )
+				{
+					highlighterSpr.sprite = canBuild;
+					Structure s = data.collider.GetComponent<Structure>();
+					if( s != null )
+					{
+						rangeIndicator.enabled = true;
+						DrawRange( snappedPos + new Vector3( 8, -8, 0 ), s.areaOfInfluence );
+					}
+					else
+					{
+						rangeIndicator.enabled = false;
+					}
+
+
+
+					if( Input.GetMouseButtonDown(0) )
+					{
+						Destroy( data.collider.gameObject );
+
+						building = false;
+						highlighter.gameObject.SetActive( false );
+
+
+						if( finishedBuildingAction != null )
+							finishedBuildingAction( structureCard );
+
+						finishedBuildingAction = null;
+						structureCard = "";
+					}
+				}
 				else
+				{
 					highlighterSpr.sprite = cannotBuild;
+					rangeIndicator.enabled = false;
+				}
 			}
 			else
+			{
 				highlighterSpr.sprite = cannotBuild;
+				rangeIndicator.enabled = false;
+			}
 		}
 		else
 		{
@@ -119,10 +157,19 @@ public class Build : MonoBehaviour
 				//Move indicator
 				if( data.collider.tag == "Structure" )
 				{
-					Vector3 snappedPos = new Vector3( VectorExtras.RoundTo(data.point.x - 8f, 16f), VectorExtras.RoundTo(data.point.y + 8f, 16f), 0f );
+					Structure s = data.collider.GetComponent<Structure>();
+					if( s != null )
+					{
+						Vector3 snappedPos = new Vector3( VectorExtras.RoundTo(data.point.x - 8f, 16f), VectorExtras.RoundTo(data.point.y + 8f, 16f), 0f );
 
-					rangeIndicator.enabled = true;
-					DrawRange( snappedPos + new Vector3( 8, -8, 0 ), data.collider.GetComponent<Structure>().areaOfInfluence );
+						rangeIndicator.enabled = true;
+						DrawRange( snappedPos + new Vector3( 8, -8, 0 ), s.areaOfInfluence );
+					}
+					else
+					{
+						rangeIndicator.enabled = false;
+					}
+
 				}
 				else
 					rangeIndicator.enabled = false;

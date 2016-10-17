@@ -7,8 +7,8 @@ public class PlayerStats : MonoBehaviour
 	void Awake() { instance = this; }
 	void Start()
 	{
-		Gems = 8;
-		Life = 3;
+		Gems = 10;
+		Life = 5;
 	}
 
 	public int gemsPerDeath = 1;

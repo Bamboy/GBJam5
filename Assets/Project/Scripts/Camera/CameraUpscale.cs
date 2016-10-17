@@ -8,7 +8,7 @@ public class CameraUpscale : MonoBehaviour
 	public enum ScaleMults { One = 1, Two = 2, Three = 3, Four = 4, Five = 5, Six = 6 }
 	public static readonly Vector2 Res = new Vector2( 160.0f, 144.0f );
 
-	private ScaleMults scale = ScaleMults.Six;
+	private static ScaleMults scale = ScaleMults.Six;
 	public ScaleMults Scaling
 	{
 		get{
@@ -37,6 +37,8 @@ public class CameraUpscale : MonoBehaviour
 		renderPPC = GetComponent<PixelPerfectCam>();
 
 		Scaling = ScaleMults.Six;
+		UpdateScaling();
+
 	}
 
 	void UpdateScaling()

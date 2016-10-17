@@ -12,7 +12,7 @@ public class StatusEffect
 
 
 
-		newEffect = new StatusEffect("Slow", Mathf.Infinity, 6f);
+		newEffect = new StatusEffect("Slow", Mathf.Infinity, 8f);
 		newEffect.onApply = (Enemy owner, string effectName) => {
 			//TODO attach some kind of particle system
 			owner.Speed -= newEffect.power;

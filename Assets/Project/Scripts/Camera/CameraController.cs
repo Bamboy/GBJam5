@@ -59,9 +59,14 @@ public class CameraController : MonoBehaviour
 				}
 			}
 		}
+
+
+
 		targetPos = new Vector3(targetX * CameraUpscale.Res.x, targetY * -CameraUpscale.Res.y );
 
 		transform.position = Vector3.MoveTowards( transform.position, targetPos, scrollSpeed );
+
+		Time.timeScale = Input.GetKey(KeyCode.Space) == true ? 2.5f : 1.0f;
 	}
 
 

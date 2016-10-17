@@ -106,11 +106,11 @@ public class StatsUI : MonoBehaviour
 
 		yield return new WaitForSeconds(0.5f);
 
-		GameObject obj1 = GameObject.Instantiate( heartRenderer.gameObject );
+		GameObject obj1 = GameObject.Instantiate( heartRenderer.gameObject, heartRenderer.transform.position, heartRenderer.transform.rotation ) as GameObject;
 		obj1.GetComponent<SpriteRenderer>().sprite = heartHalf1;
 		PolygonCollider2D p1 = obj1.AddComponent<PolygonCollider2D>();
 
-		GameObject obj2 = GameObject.Instantiate( heartRenderer.gameObject );
+		GameObject obj2 = GameObject.Instantiate( heartRenderer.gameObject, heartRenderer.transform.position, heartRenderer.transform.rotation ) as GameObject;
 		obj2.GetComponent<SpriteRenderer>().sprite = heartHalf2;
 		PolygonCollider2D p2 = obj2.AddComponent<PolygonCollider2D>();
 
